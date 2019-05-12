@@ -1,0 +1,37 @@
+1. absen
+   POST
+
+2. rekap kuliah persemester
+   GET
+   localhost:3000/routes/rekap/:IDMATAKULIAH
+
+3. rekap kuliah per pertemuan
+   GET
+   localhost:3000/routes/rekap/:IDMATAKULIAH/:PERTEMUANKE
+
+4. rekap permahasiswa perkuliah
+   GET
+   localhost:3000/routes/rekapmahasiswa/:NRP/:IDMATAKULIAH
+
+5. rekap permahasiswa persemester
+   GET
+   localhost:3000/routes/rekapmahasiswasemester/:NRP/:IDSEMESTER
+
+6. tambah user mahasiswa baru
+   POST
+   localhost:3000/tambahmahasiswa
+	body: nrp_nip, nama_user, password, role
+
+7. tambah jadwal matakuliah
+   POST
+   localhost:3000/routes/tambahjadwal
+	body: id_matkul, pertemuan_ke, waktu_awal, waktu_akhir, ruangan
+
+8. tambah matakuliah
+   POST
+   localhost:3000/routes/tambahmatkul
+	body: nama_matkul, kelas, semester
+
+9. tambah user ke matakuliah
+   POST
+   localhost:3000/routes/tambahpeserta/:IDMATAKULIAH/:NRP
