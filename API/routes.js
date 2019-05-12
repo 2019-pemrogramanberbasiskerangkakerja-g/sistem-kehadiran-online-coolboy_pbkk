@@ -17,7 +17,7 @@ var connection = require('./conn');
 
 module.exports = router;
 
-
+// nyobanya localhost:3000/routes/sesuaiAPI
 
     //tambah user mhs ke mata kuliah
 router.post('/tambahpeserta/:IDMATAKULIAH/:NRP', function(req,res){
