@@ -59,7 +59,7 @@ router.post('/tambahjadwal', function(req,res){
     var waktu_awal = req.body.waktu_awal;
     var waktu_akhir= req.body.waktu_akhir;
     var ruangan    = req.body.ruangan;
-    connection.query("INSERT INTO transaksi_matkul (id_matkul, pertemuan_ke, waktu_awal, waktu_akhir, ruangan) values (?,?,?,?,?)",
+    connection.query("INSERT INTO jadwal_matkul (id_matkul, pertemuan_ke, waktu_awal, waktu_akhir, ruangan) values (?,?,?,?,?)",
     [id_matkul,pertemuan,waktu_awal,waktu_akhir,ruangan],
     function (error, row, fields){
         if(error){
@@ -112,7 +112,7 @@ router.post('/tambahjadwal', function(req,res){
 router.get('/rekap/:IDMATAKULIAH', function(req, res){
     var matkul = req.params.IDMATAKULIAH
    
-   connection.query("SELECT u.nama_user, m.nama_matkul, tm.pertemuan_ke, tu.status from matkul m, transaksi_matkul tm, transaksi_user tu, `user` u, daftar_peserta dp WHERE m.id_matkul = ? AND tm.id_matkul = m.id_matkul AND tu.id_tran_matkul = tm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
+   connection.query("SELECT u.nama_user, m.nama_matkul, jm.pertemuan_ke, au.status from matkul m, jadwal_matkul jm, absen_user au, `user` u, daftar_peserta dp WHERE m.id_matkul = ? AND jm.id_matkul = m.id_matkul AND au.id_tran_matkul = jm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
    [matkul],
    function (error, rows, fields){
       if(error){
@@ -130,7 +130,7 @@ router.get('/rekap/:IDMATAKULIAH/:PERTEMUANKE', function(req, res){
     var idmatkul  = req.params.IDMATAKULIAH
     // console.log(matkul)
    
-   connection.query("SELECT u.nama_user, m.nama_matkul, tm.pertemuan_ke, tu.status from matkul m, transaksi_matkul tm, transaksi_user tu, `user` u, daftar_peserta dp WHERE m.id_matkul = ? AND tm.pertemuan_ke = ? AND tm.id_matkul = m.id_matkul AND tu.id_tran_matkul = tm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
+   connection.query("SELECT u.nama_user, m.nama_matkul, jm.pertemuan_ke, au.status from matkul m, jadwal_matkul jm, absen_user au, `user` u, daftar_peserta dp WHERE m.id_matkul = ? AND jm.pertemuan_ke = ? AND jm.id_matkul = m.id_matkul AND au.id_tran_matkul = jm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
    [idmatkul, pertemuan],
    function (error, rows, fields){
       if(error){
@@ -148,7 +148,7 @@ router.get('/rekapmahasiswa/:NRP/:IDMATAKULIAH', function(req, res){
     // console.log(nrp);
     // console.log('Hello');
    
-   connection.query("SELECT u.nama_user, m.nama_matkul, tm.pertemuan_ke, tu.status from matkul m, transaksi_matkul tm, transaksi_user tu, `user` u, daftar_peserta dp WHERE m.id_matkul = ? AND u.nrp_nip = ? AND tm.id_matkul = m.id_matkul AND tu.id_tran_matkul = tm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
+   connection.query("SELECT u.nama_user, m.nama_matkul, jm.pertemuan_ke, au.status from matkul m, jadwal_matkul jm, absen_user au, `user` u, daftar_peserta dp WHERE m.id_matkul = ? AND u.nrp_nip = ? AND jm.id_matkul = m.id_matkul AND au.id_tran_matkul = jm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
    [idmatkul, nrp],
    function (error, rows, fields){
       if(error){
@@ -166,7 +166,7 @@ router.get('/rekapmahasiswasemester/:NRP/:IDSEMESTER', function(req, res){
     // console.log(nrp);
     // console.log('Hello');
    
-   connection.query("SELECT u.nama_user, m.nama_matkul, tm.pertemuan_ke, tu.status from matkul m, transaksi_matkul tm, transaksi_user tu, `user` u, daftar_peserta dp WHERE u.nrp_nip = ? AND m.semester = ? AND tm.id_matkul = m.id_matkul AND tu.id_tran_matkul = tm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
+   connection.query("SELECT u.nama_user, m.nama_matkul, jm.pertemuan_ke, au.status from matkul m, jadwal_matkul jm, absen_user au, `user` u, daftar_peserta dp WHERE u.nrp_nip = ? AND m.semester = ? AND jm.id_matkul = m.id_matkul AND au.id_tran_matkul = jm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
    [nrp, semester],
    function (error, rows, fields){
       if(error){
