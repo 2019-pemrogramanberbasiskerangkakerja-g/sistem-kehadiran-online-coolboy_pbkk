@@ -124,7 +124,7 @@ router.get('/rekap/:IDMATAKULIAH', function(req, res){
 });
 
 
-//API rekap kuliah per pertemuan, belom kelar
+//API rekap kuliah per pertemuan
 router.get('/rekap/:IDMATAKULIAH/:PERTEMUANKE', function(req, res){
     var pertemuan = req.params.PERTEMUANKE
     var idmatkul  = req.params.IDMATAKULIAH
@@ -141,5 +141,38 @@ router.get('/rekap/:IDMATAKULIAH/:PERTEMUANKE', function(req, res){
   });
 });
 
+//API rekap permahasiswa perkuliah
+router.get('/rekapmahasiswa/:NRP/:IDMATAKULIAH', function(req, res){
+    var nrp = req.params.NRP;
+    var idmatkul  = req.params.IDMATAKULIAH;
+    // console.log(nrp);
+    // console.log('Hello');
+   
+   connection.query("SELECT u.nama_user, m.nama_matkul, tm.pertemuan_ke, tu.status from matkul m, transaksi_matkul tm, transaksi_user tu, `user` u, daftar_peserta dp WHERE m.id_matkul = ? AND u.nrp_nip = ? AND tm.id_matkul = m.id_matkul AND tu.id_tran_matkul = tm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
+   [idmatkul, nrp],
+   function (error, rows, fields){
+      if(error){
+          console.log(error)
+      } else{
+          response.ok(rows, res)
+      }
+  });
+});
 
-
+//API rekap permahasiswa persemester
+router.get('/rekapmahasiswasemester/:NRP/:IDSEMESTER', function(req, res){
+    var nrp = req.params.NRP;
+    var semester  = req.params.IDSEMESTER;
+    // console.log(nrp);
+    // console.log('Hello');
+   
+   connection.query("SELECT u.nama_user, m.nama_matkul, tm.pertemuan_ke, tu.status from matkul m, transaksi_matkul tm, transaksi_user tu, `user` u, daftar_peserta dp WHERE u.nrp_nip = ? AND m.semester = ? AND tm.id_matkul = m.id_matkul AND tu.id_tran_matkul = tm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
+   [nrp, semester],
+   function (error, rows, fields){
+      if(error){
+          console.log(error)
+      } else{
+          response.ok(rows, res)
+      }
+  });
+});
