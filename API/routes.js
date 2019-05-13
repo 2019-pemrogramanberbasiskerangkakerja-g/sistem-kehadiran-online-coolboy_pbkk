@@ -172,3 +172,34 @@ router.get('/rekapmahasiswasemester/:NRP/:IDSEMESTER', function(req, res){
       }
   });
 });
+
+//Absensi
+router.post('/absen/:ruang/:nrp', function(req, res) {
+    var ruangan = req.params.ruang;
+    var nrp_nip = req.params.nrp;
+    var status = "1";
+    var date = new Date();
+  
+    connection.query('SELECT u.nrp_nip, jm.ruangan,jm.id_tran_matkul, d.id_daftar FROM daftar_peserta d, matkul m, jadwal_matkul jm, user u WHERE m.id_matkul = d.id_matkul AND u.id_user=d.id_user AND jm.id_matkul = m.id_matkul AND ? > jm.waktu_awal AND ? < jm.waktu_akhir AND u.nrp_nip=? AND jm.ruangan=?',
+     [date, date, nrp_nip, ruangan], function (error, results, fields) {
+      if (error){
+        console.log(error);
+      }
+      if (results.length == 0 ){
+        console.log(error);
+        response.ok('Peserta tidak terdaftar dalam kelas',res);
+      }else{
+        console.log(results);
+        var matkul = results[0].id_tran_matkul;
+        var id_daftar = results[0].id_daftar;
+        connection.query('INSERT INTO absen_user (id_daftar,id_tran_matkul,waktu,status) values (?,?,?,?)',
+         [id_daftar,matkul,date,status], function (error, results, fields) {
+            if (error){
+              console.log(error);
+            }else{
+              response.ok('Absen Berhasil',res);
+            }
+          });
+      }
+    });
+  });
