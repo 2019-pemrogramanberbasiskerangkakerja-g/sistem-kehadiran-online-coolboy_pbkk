@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+  
+    <% include ./partials/head %>
+</head>
+<body>
+        <header>
+                <nav  class="navbar navbar-fixed-top navbar-default" role="navigation">
+                        <div class="container-fluid">
+                        
+                            <div class="navbar-header">
+                                <a class="navbar-brand" href="#">
+                                    <span class="glyphicon glyphicon glyphicon-tree-deciduous"></span>
+                                    Sistem Kehadiran
+                                </a>
+                                
+                                <ul class="nav navbar-nav">
+                                    <!-- <li><a href="/">Home</a></li> -->
+                                    <li><a href="/tambahmatkul">Tambah Mata Kuliah</a></li>
+                                    <li><a href="#Tambahjadwal">Tambah Jadwal Mata Kuliah</a></li>
+                                    <li><a href="/tambahpeserta">Tambah Peserta Kuliah</a></li>
+
+                                    <li><a href='/keluar'>Logout</a></li>
+                                </ul>
+                                
+                            </div>
+                            <ul class="nav navbar-nav navbar-right">
+                                   
+                                    <li class="dropdown">
+                                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">REKAPITULASI ABSEN <span class="caret"></span></a>
+                                      <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">MATA KULIAH PER SEMESTER</a></li>
+                                        <li><a href="#">KULIAH PER PERTEMUAN</a></li>
+                                        <li><a href="#">MAHASISWA PER MATA KULIAH</a></li>
+                                        <li><a href="#">MAHASISWA PER SEMESTER</a></li>
+                                      </ul>
+                                    </li>
+                                </ul>
+                        
+                        </div>
+                        </nav>
+        </header>
+        
+        
+        <main>
+            <!-- INDEX atau ABSEN -->
+            <div class="container" >
+                    
+                <div class="media-body ml-2 d-none d-lg-block">
+                    
+                        <h1><span class="fa fa-stack-2x"></span>SELAMAT DATANG <strong><%= nama %></strong></h1>
+                    
+                    
+                       
+                </div>
+                <div class="col-sm-6 col-sm-offset-3">
+                        <h2 id="absen" class="text-center"><span class="fa fa-fw"></span>ABSEN</h2>
+                    <form action="/absen" method="post">
+                        <div class="form-group">
+                            <label for="your_name">NRP</label>
+                            <input type="text" class="form-control"name="nrp" id="nrp" placeholder="NRP">
+                        </div>
+                        <div class="form-group">
+                            <label for="your_room">RUANGAN</label>
+                            <input type="password" class="form-control" name="ruang" id="ruang" placeholder="ruang">
+                        </div>
+                        <div class="form-group">
+                                <label for="your_time">WAKTU</label>
+                                <input type="datetime-local" class="form-control" name="time" id="time" placeholder="time">
+                            </div>
+                            <br/>
+                        <button  type="submit" name="absen" id="absen" class="btn btn-warning btn-lg btn-block">ABSEN</button>
+                    </form>
+                    
+
+                </div>
+
+                <!-- <div class="col-sm-6 col-sm-offset-3">
+                        <h2 id="Tambahjadwal" class="text-center"><span class="fa fa-fw"></span>TAMBAH JADWAL MATA KULIAH</h2>
+                  <div class="col-xl-12 mb-12">
+                    <div class="card shadow">
+                      <div class="card-header border-0">
+                        <form id="frm-jadwal" action="jadwal" method="post">
+                          <label for="namaMatkul"> Id Mata Kuliah</label>
+                          <input class="form-control form-control-alternative" type="text" name="idMatkul" id="idMatkul"
+                            placeholder="id Matkul">
+          
+                          <label for="namaMatkul" style="margin-top:30px">Pertemuan Ke </label>
+                          <input class="form-control form-control-alternative" type="number" name="pertemuan" id="pertemuan"
+                            placeholder="Nama Mata Kuliah">
+          
+                          <label for="namaMatkul" style="margin-top:30px">Ruangan Kelas</label>
+                          <input class="form-control form-control-alternative" type="text" name="kelas" id="kelas"
+                            placeholder="Kelas">
+          
+                          <label for="namaMatkul" style="margin-top:30px">Jam Masuk</label>
+                          <input class="form-control form-control-alternative" type="text" name="masuk" id="masuk">
+                          <label for="namaMatkul" style="margin-top:30px">Jam Selesai</label>
+                          <input class="form-control form-control-alternative" type="text" name="selesai" id="selesai"> -->
+          
+                          <!-- <label for="namaMatkul" style="margin-top:30px">Jam Masuk</label>
+                          <div id="picker-mulai"></div>
+                          <input type="hidden" id="mulai" name="masuk" value="">
+          
+                          <label for="namaMatkul" style="margin-top:30px">Jam Selesai</label>
+                          <div id="picker-selesai"></div>
+                          <input type="hidden" id="selesai" name="selesai" value="">
+          
+                          <button type="submit" style="margin-top:60px" class="btn btn-warning btn-lg">Submit</button>
+          
+                        </form>
+                      </div>
+                    </div>
+                  </div> -->
+            </div>
+
+        
+                   
+           
+        </main>
+        
+        <footer>
+                <% include ./partials/footer %>
+        </footer>
+        
+        
+        </body>
+        
+         
+        </html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+  
+    <% include ./partials/head %>
+</head>
+
+<body>
+    <header>
+            <nav  class="navbar navbar-fixed-top navbar-default" role="navigation">
+                    <div class="container-fluid">
+                    
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="/">
+                                <span class="glyphicon glyphicon glyphicon-tree-deciduous"></span>
+                                Sistem Kehadiran
+                            </a>
+                            
+                            <ul class="nav navbar-nav">
+                                <!-- <li><a href="/">Home</a></li> -->
+                                <li><a href="/tambahmatkul">Tambah Mata Kuliah</a></li>
+                                <li><a href="#Tambahjadwal">Tambah Jadwal Mata Kuliah</a></li>
+                                <li><a href="#">Tambah Peserta Kuliah</a></li>
+
+                                <li><a href='/keluar'>Logout</a></li>
+                            </ul>
+                            
+                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                               
+                                <li class="dropdown">
+                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">REKAPITULASI ABSEN <span class="caret"></span></a>
+                                  <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">MATA KULIAH PER SEMESTER</a></li>
+                                    <li><a href="#">KULIAH PER PERTEMUAN</a></li>
+                                    <li><a href="#">MAHASISWA PER MATA KULIAH</a></li>
+                                    <li><a href="#">MAHASISWA PER SEMESTER</a></li>
+                                  </ul>
+                                </li>
+                            </ul>
+                    
+                    </div>
+                    </nav>
+
+    </header>
+<main>
+
+ <!-- Page content -->
+ <div class="container">
+ <div class="col-sm-6 col-sm-offset-3">
+    <form action="/tambahpeserta" method="post">
+        <div class="form-group">
+            <label for="matkul">ID MATA KULIAH</label>
+            <input type="number" class="form-control"name="idmatkul" id="idmatkul" placeholder="id mata kuliah">
+        </div>
+        <div class="form-group">
+            <label for="semester">SEMESTER</label>
+            <input type="number" class="form-control" name="smt" id="smt" placeholder="semester">
+        </div>
+        <div class="form-group">
+                <label for="nrp">NRP</label>
+                <input type="number" class="form-control" name="nrp" id="nrp" placeholder="nrp">
+            </div>
+            <br/>
+        <button  type="submit" name="absen" id="absen" class="btn btn-warning btn-lg btn-block">SUBMIT</button>
+    </form>
+    
+
+</div>
+</div>
+
+
+
+
+</main>
+
+
+
+
+    <footer>
+            <% include ./partials/footer %>
+    </footer>
+</body>
+</html>
