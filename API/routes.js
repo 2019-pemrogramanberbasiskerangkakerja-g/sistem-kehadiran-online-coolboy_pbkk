@@ -17,7 +17,7 @@ var connection = require('./conn');
 
 module.exports = router;
 
-
+// nyobanya localhost:3000/routes/sesuaiAPI
 
     //tambah user mhs ke mata kuliah
 router.post('/tambahpeserta/:IDMATAKULIAH/:NRP', function(req,res){
@@ -35,7 +35,7 @@ router.post('/tambahpeserta/:IDMATAKULIAH/:NRP', function(req,res){
 });
 
     // tambah user
-     router.post('/registeruser',function(req,res){
+     router.post('/tambahmahasiswa',function(req,res){
          var nrp_nip = req.body.nrp_nip;
          var nama_user = req.body.nama_user;
          var password = req.body.password;
@@ -59,7 +59,7 @@ router.post('/tambahjadwal', function(req,res){
     var waktu_awal = req.body.waktu_awal;
     var waktu_akhir= req.body.waktu_akhir;
     var ruangan    = req.body.ruangan;
-    connection.query("INSERT INTO transaksi_matkul (id_matkul, pertemuan_ke, waktu_awal, waktu_akhir, ruangan) values (?,?,?,?,?)",
+    connection.query("INSERT INTO jadwal_matkul (id_matkul, pertemuan_ke, waktu_awal, waktu_akhir, ruangan) values (?,?,?,?,?)",
     [id_matkul,pertemuan,waktu_awal,waktu_akhir,ruangan],
     function (error, row, fields){
         if(error){
@@ -112,7 +112,7 @@ router.post('/tambahjadwal', function(req,res){
 router.get('/rekap/:IDMATAKULIAH', function(req, res){
     var matkul = req.params.IDMATAKULIAH
    
-   connection.query("SELECT u.nama_user, m.nama_matkul, tm.pertemuan_ke, tu.status from matkul m, transaksi_matkul tm, transaksi_user tu, `user` u, daftar_peserta dp WHERE m.id_matkul = ? AND tm.id_matkul = m.id_matkul AND tu.id_tran_matkul = tm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
+   connection.query("SELECT u.nama_user, m.nama_matkul, jm.pertemuan_ke, au.status from matkul m, jadwal_matkul jm, absen_user au, `user` u, daftar_peserta dp WHERE m.id_matkul = ? AND jm.id_matkul = m.id_matkul AND au.id_tran_matkul = jm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
    [matkul],
    function (error, rows, fields){
       if(error){
@@ -124,13 +124,12 @@ router.get('/rekap/:IDMATAKULIAH', function(req, res){
 });
 
 
-//API rekap kuliah per pertemuan, belom kelar
+//API rekap kuliah per pertemuan
 router.get('/rekap/:IDMATAKULIAH/:PERTEMUANKE', function(req, res){
     var pertemuan = req.params.PERTEMUANKE
     var idmatkul  = req.params.IDMATAKULIAH
-    // console.log(matkul)
    
-   connection.query("SELECT u.nama_user, m.nama_matkul, tm.pertemuan_ke, tu.status from matkul m, transaksi_matkul tm, transaksi_user tu, `user` u, daftar_peserta dp WHERE m.id_matkul = ? AND tm.pertemuan_ke = ? AND tm.id_matkul = m.id_matkul AND tu.id_tran_matkul = tm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
+   connection.query("SELECT u.nama_user, m.nama_matkul, jm.pertemuan_ke, au.status from matkul m, jadwal_matkul jm, absen_user au, `user` u, daftar_peserta dp WHERE m.id_matkul = ? AND jm.pertemuan_ke = ? AND jm.id_matkul = m.id_matkul AND au.id_tran_matkul = jm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
    [idmatkul, pertemuan],
    function (error, rows, fields){
       if(error){
@@ -141,5 +140,66 @@ router.get('/rekap/:IDMATAKULIAH/:PERTEMUANKE', function(req, res){
   });
 });
 
+//API rekap permahasiswa perkuliah
+router.get('/rekapmahasiswa/:NRP/:IDMATAKULIAH', function(req, res){
+    var nrp = req.params.NRP;
+    var idmatkul  = req.params.IDMATAKULIAH;
+  
+   
+   connection.query("SELECT u.nama_user, m.nama_matkul, jm.pertemuan_ke, au.status from matkul m, jadwal_matkul jm, absen_user au, `user` u, daftar_peserta dp WHERE m.id_matkul = ? AND u.nrp_nip = ? AND jm.id_matkul = m.id_matkul AND au.id_tran_matkul = jm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
+   [idmatkul, nrp],
+   function (error, rows, fields){
+      if(error){
+          console.log(error)
+      } else{
+          response.ok(rows, res)
+      }
+  });
+});
 
+//API rekap permahasiswa persemester
+router.get('/rekapmahasiswasemester/:NRP/:IDSEMESTER', function(req, res){
+    var nrp = req.params.NRP;
+    var semester  = req.params.IDSEMESTER;
+  
+   connection.query("SELECT u.nama_user, m.nama_matkul, jm.pertemuan_ke, au.status from matkul m, jadwal_matkul jm, absen_user au, `user` u, daftar_peserta dp WHERE u.nrp_nip = ? AND m.semester = ? AND jm.id_matkul = m.id_matkul AND au.id_tran_matkul = jm.id_tran_matkul AND dp.id_matkul = m.id_matkul AND dp.id_user = u.id_user AND u.role = 2",
+   [nrp, semester],
+   function (error, rows, fields){
+      if(error){
+          console.log(error)
+      } else{
+          response.ok(rows, res)
+      }
+  });
+});
 
+//Absensi
+router.post('/absen/:ruang/:nrp', function(req, res) {
+    var ruangan = req.params.ruang;
+    var nrp_nip = req.params.nrp;
+    var status = "1";
+    var date = new Date();
+  
+    connection.query('SELECT u.nrp_nip, jm.ruangan,jm.id_tran_matkul, d.id_daftar FROM daftar_peserta d, matkul m, jadwal_matkul jm, user u WHERE m.id_matkul = d.id_matkul AND u.id_user=d.id_user AND jm.id_matkul = m.id_matkul AND ? > jm.waktu_awal AND ? < jm.waktu_akhir AND u.nrp_nip=? AND jm.ruangan=?',
+     [date, date, nrp_nip, ruangan], function (error, results, fields) {
+      if (error){
+        console.log(error);
+      }
+      if (results.length == 0 ){
+        console.log(error);
+        response.ok('Peserta tidak terdaftar dalam kelas',res);
+      }else{
+        console.log(results);
+        var matkul = results[0].id_tran_matkul;
+        var id_daftar = results[0].id_daftar;
+        connection.query('INSERT INTO absen_user (id_daftar,id_tran_matkul,waktu,status) values (?,?,?,?)',
+         [id_daftar,matkul,date,status], function (error, results, fields) {
+            if (error){
+              console.log(error);
+            }else{
+              response.ok('Absen Berhasil',res);
+            }
+          });
+      }
+    });
+  });
